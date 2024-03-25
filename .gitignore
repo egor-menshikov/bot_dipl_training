@@ -399,3 +399,4 @@ FodyWeavers.xsd
 /workspace.xml
 .idea/
 .env
+/.venv/
