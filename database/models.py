@@ -18,13 +18,29 @@ class User(Base):
     phone: Mapped[str] = mapped_column(String(13), nullable=True)
 
 
+class Location(Base):
+    __tablename__ = 'location'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    wedding_location: Mapped[str] = mapped_column(String(150), nullable=True)
+
+
+class Cuisine(Base):
+    __tablename__ = 'cuisine'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    cuisine_type: Mapped[str] = mapped_column(String(150), nullable=True)
+
+
 class Quiz(Base):
     __tablename__ = 'quiz'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
     wedding_date: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
-    wedding_location: Mapped[str] = mapped_column(String(150), nullable=True)
-    cuisine: Mapped[str] = mapped_column(String(150), nullable=True)
+    wedding_location_id: Mapped[int] = mapped_column(ForeignKey('location.id', ondelete='CASCADE'), nullable=False)
+    cuisine_id: Mapped[int] = mapped_column(ForeignKey('cuisine.id', ondelete='CASCADE'), nullable=False)
 
     user: Mapped['User'] = relationship(backref='quiz')
+    wedding_location: Mapped['Location'] = relationship(backref='quiz')
+    cuisine: Mapped['Cuisine'] = relationship(backref='quiz')
